@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Mogoditshane Workshop Hub</title>
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#FFFFFF; --paper:#FFFFFF; --card:#EFEEEA; --sand:#E4E2DC; --line:#DDDDDD; --ink:#0A0A0A; --fg:#333333; --muted:#58564F; --stone:#8C8B86;
+  --band:#0A0A0A; --band2:#262420; --band-fg:#FFFFFF; --bar:#8C8B86; --bar-fg:#FFFFFF; --bar-kicker:#141414; --btn:#141414; --btn-fg:#FFFFFF;
+  --ok:#2E6B3A; --warn:#8A3B2B; --focus:#3B6FD9;
+  --font:Arial, Helvetica, "Liberation Sans", sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#141414; --paper:#1C1B19; --card:#242321; --sand:#2B2927; --line:#3A3835; --ink:#F2EFE8; --fg:#DDD9D0; --muted:#B3AC9E; --stone:#9C9A93; --band:#000000; --band2:#1A1917; --bar:#5C5B56; --bar-kicker:#F2EFE8; --btn:#F2EFE8; --btn-fg:#141414; --ok:#7CC88A; --warn:#E08A77; --focus:#7FA6FF; color-scheme:dark } }
+:root[data-theme="dark"]{ --bg:#141414; --paper:#1C1B19; --card:#242321; --sand:#2B2927; --line:#3A3835; --ink:#F2EFE8; --fg:#DDD9D0; --muted:#B3AC9E; --stone:#9C9A93; --band:#000000; --band2:#1A1917; --bar:#5C5B56; --bar-kicker:#F2EFE8; --btn:#F2EFE8; --btn-fg:#141414; --ok:#7CC88A; --warn:#E08A77; --focus:#7FA6FF; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.45;margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+.band{background:linear-gradient(90deg,var(--band) 0,var(--band) 68%,var(--band2) 68%);color:var(--band-fg)}
+.band .in{max-width:860px;margin:0 auto;padding-block:26px 24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8C8B86;font-weight:700}
+h1{font-weight:700;font-size:clamp(28px,6.5vw,40px);line-height:1.1;margin:8px 0 6px;text-wrap:balance;color:#FFFFFF}
+.sub{margin:0 0 14px;color:#BBBBBB;font-style:italic;font-size:16px}
+.rule{width:120px;height:0;border-top:1px solid #8C8B86;margin:12px 0}
+.meta{font-size:13px;color:#BBBBBB;margin:0}
+.meta b{color:#FFFFFF;font-weight:700}
+main{max-width:860px;margin:0 auto;padding-block:0 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.bar{background:var(--bar);color:var(--bar-fg);margin:22px 0 16px;padding:12px 16px}
+.bar .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--bar-kicker);font-weight:700;margin:0 0 4px}
+.bar h2{margin:0;font-size:20px;font-weight:700;color:var(--bar-fg);text-wrap:balance}
+h3{font-size:17px;margin:20px 0 6px;color:var(--ink)}
+p{margin:0 0 10px}
+ul,ol{margin:0 0 10px;padding-left:22px}
+li{margin:0 0 6px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.doors{display:grid;gap:12px;grid-template-columns:1fr;margin:0 0 16px}
+@media(min-width:640px){.doors{grid-template-columns:1fr 1fr}}
+.door{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;background:var(--card);border:1px solid var(--line);padding:16px;text-decoration:none;color:var(--fg);min-width:0}
+.door .n{width:40px;height:40px;border-radius:50%;background:var(--btn);color:var(--btn-fg);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+.door strong{display:block;font-size:18px;color:var(--ink);margin-bottom:4px}
+.door span{display:block;font-size:14px;color:var(--muted)}
+.door em{display:inline-block;margin-top:10px;font-style:normal;font-weight:700;color:var(--ink);border-bottom:2px solid var(--ink);font-size:14px}
+.days{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.days a{font-size:14px;font-weight:700;color:var(--ink);border:1.5px solid var(--ink);padding:7px 10px;text-decoration:none}
+.days a.today{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.note{background:var(--card);border:1px solid var(--line);padding:12px 14px;margin:14px 0}
+.note b{color:var(--ink)}
+.btn{display:inline-block;background:var(--btn);color:var(--btn-fg);font-weight:700;padding:12px 18px;border:1.5px solid var(--btn);font-size:16px;cursor:pointer;text-decoration:none;font-family:var(--font);line-height:1.2}
+.btn.secondary{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--muted);border-color:var(--stone)}
+.btn[disabled]{opacity:.55;cursor:default}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+label{display:block;font-weight:700;margin:12px 0 4px;color:var(--ink);font-size:15px}
+input[type=text],input[type=email],input[type=tel],select,textarea{width:100%;font:inherit;padding:11px 12px;border:1.5px solid var(--line);background:var(--paper);color:var(--fg);border-radius:0}
+input.code{text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.q{background:var(--card);border:1px solid var(--line);padding:14px 14px 8px;margin:10px 0}
+.q h4{margin:0 0 8px;font-size:16px;line-height:1.35;color:var(--ink)}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:9px 6px;cursor:pointer;font-weight:400;margin:0;color:var(--fg)}
+.opt:hover{background:var(--sand)}
+.opt input{margin-top:5px;width:20px;height:20px;flex:0 0 auto;accent-color:#141414}
+.opt span{min-width:0}
+.q.missing{border-color:var(--warn);border-width:2px}
+.result{background:var(--card);border:2px solid var(--ink);padding:16px;margin-top:16px}
+.score{font-size:44px;line-height:1;color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.status{padding:10px 12px;margin:10px 0;border-left:4px solid var(--stone);background:var(--sand);font-size:15px}
+.status.ok{border-left-color:var(--ok)}
+.status.warn{border-left-color:var(--warn)}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;background:var(--sand);padding:10px 12px;word-break:break-word;user-select:all}
+.addr{font-family:ui-monospace,Menlo,Consolas,monospace;word-break:break-all;user-select:all;color:var(--ink)}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto}
+.toast{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;font-size:15px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.grid2{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:640px){.grid2{grid-template-columns:1fr 1fr}}
+.toc a{color:var(--ink)}
+footer{border-top:1px solid var(--line);margin-top:28px;padding:12px 0 0;font-size:12px;color:var(--stone);display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between}
+@media (prefers-reduced-motion: reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="band"><div class="in">
+  <div class="kicker">Capacity-building workshop: Local Authority Hub Workshops</div>
+  <h1>Raising capital through municipal bonds</h1>
+  <p class="sub">Accessing capital through the capital markets</p>
+  <div class="rule"></div>
+  <p class="meta"><b>Mogoditshane Hub · 18 to 20 November 2026 · Gaborone</b><br>Mogoditshane, Molepolole and Letlhakeng, with Gaborone City Council's investment company as the SPV case<br>Ministry of Local Government and Traditional Affairs · UNDP Joint Justice-Prosperity Project<br>Facilitators: Leslie Lesego Letsogile, FCMA, CGMA · Mr Shakespeare Vaidya</p>
+</div></div>
+
+<main>
+  <section id="view-home" class="view">
+    <div class="bar"><p class="k">Opening · Maikaelelo</p><h2>Dumelang, bagaetsho. Everything for the three days is here.</h2></div>
+    <div class="doors">
+      <a class="door" href="#register"><span class="n">1</span><div><strong>Sign in for today</strong><span>Every morning, for the attendance register and your certificate. After Day 1 your details are remembered on this phone, so it takes one tap.</span>
+        <span class="days" id="day-links"><a href="#day1" data-day="day1">Day 1 · Wed 18 Nov</a><a href="#day2" data-day="day2">Day 2 · Thu 19 Nov</a><a href="#day3" data-day="day3">Day 3 · Fri 20 Nov</a></span></div></a>
+      <a class="door" href="#pre"><span class="n">2</span><div><strong>Day 1 pre-assessment</strong><span>Before Module 1. Twelve questions, ten minutes, with your participant code. Your answers go to the facilitator automatically.</span><em>Start Day 1 test</em></div></a>
+      <a class="door" href="#post"><span class="n">3</span><div><strong>Day 3 post-assessment</strong><span>At the close on Day 3, with the same code, so your progress can be measured.</span><em>Start Day 3 test</em></div></a>
+      <a class="door" href="#notes"><span class="n">4</span><div><strong>Notes for participants</strong><span>Choosing bankable projects, the types of bonds, the steps and terms for listing a bond, and how credit ratings work.</span><em>Read the notes</em></div></a>
+    </div>
+    <div class="note"><b>How we work.</b> Kgotla rules: brief presentations, then discussion, and everyone has a chance to speak. Two languages, Setswana le Sekgoa. Your council's own numbers in the exercises. Tests are recorded by code, not by name.</div>
+    <div class="grid2">
+      <div class="note"><b>Day 1 · Foundations.</b> Module 1 Council revenue · Module 2 Capital markets and development finance.</div>
+      <div class="note"><b>Day 2 · Application in Botswana.</b> Module 3 Creditworthiness · Module 4 Project bankability.</div>
+      <div class="note"><b>Day 3 · Approvals and simulation.</b> Module 5 Law and compliance · Module 6 Bond issuance · the Motse Waste and Sanitation Bond simulation.</div>
+      <div class="note"><b>This address.</b> <span class="addr" id="addr">leslielets.github.io/mogoditshane</span><br><span class="small muted">Scan the QR code on the screen, or type it. Add #day1, #day2, #day3, #pre or #post to go straight to a page.</span></div>
+    </div>
+    <p class="small muted" style="margin-top:14px"><a href="#results" style="color:var(--muted)">Facilitator records</a></p>
+  </section>
+
+  <section id="view-register" class="view" hidden>
+    <p><a href="#home" class="muted">← Back</a></p>
+    <div class="bar"><p class="k" id="reg-kicker">Attendance register · Day 1</p><h2 id="reg-title">Sign in for Day 1, Wednesday 18 November 2026</h2></div>
+    <form id="reg-form" novalidate>
+      <div class="grid2">
+        <div><label for="r-name">Full name</label><input type="text" id="r-name" autocomplete="name" required></div>
+        <div><label for="r-council">Council or institution</label><select id="r-council" required><option value="">Choose…</option><option>Mogoditshane</option><option>Molepolole (Kweneng District Council)</option><option>Letlhakeng</option><option>Gaborone City Council or GCIC</option><option>MLGTA</option><option>Other institution</option></select></div>
+        <div id="r-other-wrap" hidden><label for="r-other">Name of your institution</label><input type="text" id="r-other" autocomplete="organization"></div>
+        <div><label for="r-role">Position</label><select id="r-role" required><option value="">Choose…</option><option>Councillor</option><option>Mayor or Council Chairperson</option><option>Town or Council Secretary</option><option>Deputy Secretary or Director</option><option>Finance officer</option><option>Other council officer</option><option>Ministry or agency officer</option><option>Other</option></select></div>
+        <div><label for="r-title">Job title (optional)</label><input type="text" id="r-title" autocomplete="organization-title"></div>
+        <div><label for="r-email">Email</label><input type="email" id="r-email" autocomplete="email" inputmode="email"></div>
+        <div><label for="r-phone">Mobile number</label><input type="tel" id="r-phone" autocomplete="tel" inputmode="tel" placeholder="7x xxx xxx"></div>
+        <div><label for="r-code">Your participant code (four letters or numbers)</label><input type="text" id="r-code" class="code" maxlength="6" autocomplete="off" autocapitalize="characters"><p class="small muted">Use the same code on the Day 1 and Day 3 tests. We suggested one; change it if you like.</p></div>
+      </div>
+      <p class="small muted">Your details go only to the facilitator, for the attendance register, the certificates and follow-up on the 30/60/90-day action plans.</p>
+      <p class="small" id="reg-msg" style="color:var(--warn)"></p>
+      <div class="row"><button class="btn" type="submit" id="reg-submit">Sign in for Day 1</button></div>
+    </form>
+    <div id="reg-done" class="result" hidden>
+      <div class="kicker" style="color:var(--muted)" id="reg-done-kicker">Signed in</div>
+      <p id="reg-done-text" style="margin-top:8px"></p>
+      <div id="reg-status" class="status"></div>
+      <p>Your code: <strong id="reg-done-code" class="addr"></strong>. Keep it for the Day 1 and Day 3 tests.</p>
+      <div id="reg-backup" hidden>
+        <p><strong>Backup.</strong> Tap WhatsApp (the message is already written) or show this screen at the registration desk.</p>
+        <div class="row"><a class="btn secondary" id="reg-wa" href="#" target="_blank" rel="noopener">Send on WhatsApp</a></div>
+        <p class="code" id="reg-line" style="margin-top:12px"></p>
+      </div>
+      <div class="row" style="margin-top:10px"><a class="btn" href="#pre" id="reg-next">Go to the Day 1 test</a><a class="btn secondary" href="#home">Back to the start</a></div>
+    </div>
+  </section>
+
+  <section id="view-test" class="view" hidden>
+    <p><a href="#home" class="muted">← Back</a></p>
+    <div class="bar"><p class="k" id="test-pill">Day 1 pre-assessment</p><h2 id="test-title">Knowledge assessment</h2></div>
+    <p class="muted small">Twelve questions, one mark each, no negative marking. Work on your own; do not refer to the workbook or to other participants. Choose one answer per question.</p>
+    <form id="test-form" novalidate>
+      <label for="code">Your participant code (four letters or numbers, not your name)</label>
+      <input type="text" id="code" class="code" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="for example KG27" required>
+      <label for="council">Your council</label>
+      <select id="council" required><option value="">Choose…</option><option>Mogoditshane</option><option>Molepolole (Kweneng District Council)</option><option>Letlhakeng</option><option>Gaborone City Council or GCIC</option><option>MLGTA or other institution</option></select>
+      <label for="role">Your role (optional)</label>
+      <select id="role"><option value="">Choose…</option><option>Councillor</option><option>Council officer</option><option>Ministry or agency officer</option><option>Other</option></select>
+      <div id="questions"></div>
+      <p class="small" id="form-msg" style="color:var(--warn)"></p>
+      <div class="row"><button class="btn" type="submit" id="submit">Submit my answers</button></div>
+    </form>
+    <div class="result" id="result" hidden>
+      <div class="kicker" style="color:var(--muted)" id="result-eyebrow">Recorded</div>
+      <div class="score" id="result-score">0 / 12</div>
+      <p id="result-text"></p>
+      <p id="result-compare" class="muted"></p>
+      <div id="send-status" class="status">Sending to the facilitator…</div>
+      <p><strong>Backup.</strong> If the automatic send did not go through, tap WhatsApp (the message is already written) or copy the line and send it any way you like.</p>
+      <div class="row">
+        <a class="btn secondary" id="wa-link" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
+        <button class="btn ghost" type="button" id="copy-result">Copy result line</button>
+      </div>
+      <p class="code" id="result-line" style="margin-top:12px"></p>
+      <p class="small muted">Your answers are also kept on this phone so Day 3 can show your progress.</p>
+    </div>
+  </section>
+
+  <section id="view-notes" class="view" hidden>
+    <p><a href="#home" class="muted">← Back</a></p>
+    <div class="bar"><p class="k">Notes for participants</p><h2>Bankable projects, bond types, listing and credit ratings</h2></div>
+    <p class="toc small"><a href="#notes" data-jump="n-projects">1. Choosing bankable projects</a> · <a href="#notes" data-jump="n-bonds">2. Types of bonds</a> · <a href="#notes" data-jump="n-listing">3. Listing a bond on the BSE</a> · <a href="#notes" data-jump="n-rating">4. Credit ratings and creditworthiness</a></p>
+
+    <h3 id="n-projects">1. Choosing bankable projects in the council environment</h3>
+    <p>A project is bankable when a lender or investor can see how it will be repaid. A good idea is not enough: the project needs a paying customer, realistic costs and someone accountable for running it.</p>
+    <p><b>Start from the council's own position.</b> The project must fall within the council's functions and its development plan, and the council's approvals must be planned: the full council resolution, the Minister's approval of any loan under section 67 of the Local Government Act, and procurement under the Public Procurement Act. Councils depend heavily on grants, so the repayment must come from the project's own income or from proven collections, not from the Revenue Support Grant.</p>
+    <p><b>Principles of a bankable project.</b></p>
+    <ol>
+      <li>A clear need, with evidence of demand.</li>
+      <li>A paying customer and a reliable revenue stream: user charges, rentals, gate fees or an offtake agreement.</li>
+      <li>Realistic capital and operating costs, and a realistic timetable.</li>
+      <li>Legal authority, land and permits secured before money is raised.</li>
+      <li>Risks identified and given to the party best able to manage each one.</li>
+      <li>The capacity to build, operate and maintain the asset.</li>
+      <li>Environmental and social soundness.</li>
+      <li>Better value than the alternatives, including doing nothing.</li>
+    </ol>
+    <p><b>Methods and tools.</b></p>
+    <ul>
+      <li><b>Long-list and screen.</b> List the candidate projects from the development plan, then score them on weighted criteria, for example revenue certainty 30, strategic fit 20, affordability 20, readiness 15, social and environmental benefit 15. Take the top one or two forward.</li>
+      <li><b>One-page concept note.</b> The need, the solution, the cost, who pays, the main risks and the approvals required.</li>
+      <li><b>Pre-feasibility, then feasibility.</b> Demand, technical design, cost, financial and economic returns, legal position, environmental and social impact, and who will run it.</li>
+      <li><b>Financial model.</b> Yearly cash flows over the life of the loan. Net present value (NPV) is the value today of the future cash flows less the cost; a positive NPV at the cost of borrowing means the project creates value. The internal rate of return (IRR) is the rate at which the NPV is zero; it should exceed the cost of borrowing. Payback is the number of years to recover the investment.</li>
+      <li><b>Debt service cover ratio (DSCR).</b> Cash available for debt service divided by the year's interest and principal. Lenders usually look for at least 1.3 to 1.5 times.</li>
+      <li><b>Sensitivity and stress tests.</b> What happens if income falls by 20% or costs rise by 15%? If the DSCR falls below 1.0, the project cannot repay on its own.</li>
+      <li><b>Risk register.</b> Each risk, its likelihood and impact, who owns it and how it is reduced.</li>
+    </ul>
+
+    <h3 id="n-bonds">2. Types of bonds and how councils can use them</h3>
+    <div class="scroll"><table>
+      <thead><tr><th>Type</th><th>How it works</th><th>Council use</th></tr></thead>
+      <tbody>
+        <tr><td><b>General obligation bond</b></td><td>Repaid from the council's general revenue, such as rates and fees.</td><td>Roads, street lighting and other works that do not earn their own income. Needs strong own revenue.</td></tr>
+        <tr><td><b>Revenue bond</b></td><td>Repaid only from the income of the project it pays for.</td><td>Markets, bus termini, abattoirs, landfill gate fees, water and sanitation charges.</td></tr>
+        <tr><td><b>Project bond</b></td><td>Issued by a project company (an SPV) whose cash flows are ring-fenced for investors.</td><td>A solar plant with an offtake agreement; PPP projects.</td></tr>
+        <tr><td><b>Green bond</b></td><td>Proceeds go only to environmental projects, under a framework checked by an independent reviewer.</td><td>Solar, recycling, water efficiency. Listed in the BSE's Sustainable Bonds Segment.</td></tr>
+        <tr><td><b>Social bond</b></td><td>Proceeds go only to social projects.</td><td>Affordable housing, clinics, schools.</td></tr>
+        <tr><td><b>Sustainability bond</b></td><td>A mix of green and social projects.</td><td>Integrated neighbourhood upgrades.</td></tr>
+        <tr><td><b>Sustainability-linked bond</b></td><td>The coupon changes if agreed targets are met or missed.</td><td>Council-wide targets, for example the collection rate.</td></tr>
+        <tr><td><b>Asset-backed bond</b></td><td>Repaid from a pool of rentals or receivables held by an insolvency-remote SPV.</td><td>Property rentals and lease income.</td></tr>
+        <tr><td><b>Pooled bond</b></td><td>Several councils combine projects into one issue through a shared vehicle.</td><td>Smaller councils reaching a size investors will buy.</td></tr>
+        <tr><td><b>Guaranteed or credit-enhanced bond</b></td><td>A guarantee, a reserve account or a partial guarantee lowers the risk to investors.</td><td>First-time issuers.</td></tr>
+        <tr><td><b>Medium-term note programme</b></td><td>One programme document approved once; separate tranches issued as projects become ready.</td><td>A pipeline of projects over several years.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small muted" style="margin-top:8px">Structures can also differ: fixed or floating rate; bullet (all principal at the end), amortising (principal repaid over time) or with a sinking fund; and a public listed issue or a private placement to a few investors. A listed bond needs at least five holders on the BSE.</p>
+
+    <h3 id="n-listing">3. Listing a bond on the Botswana Stock Exchange: the steps</h3>
+    <ol>
+      <li><b>Authority and approvals.</b> Full council resolution; the Minister's approval of the loan under section 67, on the advice of the Minister of Finance; the issuing company's board resolution.</li>
+      <li><b>Appoint the team.</b> A Sponsor is required for every debt listing and must be a BSE Registered Adviser if external. Add the arranger, legal advisers, auditors, a trustee, a paying agent and a transfer secretary, and a rating agency if a rating is sought.</li>
+      <li><b>Prepare the disclosure documents.</b> A programme memorandum or offering circular with a pricing supplement for each issue; audited IFRS financial statements for at least three years; full details of any security, guarantee or credit enhancement; and the rating, if one is obtained.</li>
+      <li><b>Informal review.</b> The Sponsor submits the drafts to the BSE for comment.</li>
+      <li><b>Roadshow and book-building.</b> The arranger presents to investors, who place bids; the coupon and the allocation are set from the bids.</li>
+      <li><b>Formal approval.</b> The BSE approves the signed final disclosure document, which reaches investors at least 48 hours before listing.</li>
+      <li><b>Settlement and listing.</b> The bonds are held electronically at the CSDB, admitted to the BSE's Official List and announced on X-News.</li>
+      <li><b>After listing.</b> Interest and capital are paid through the paying agent; financial statements are published on time; the trustee watches the covenants; any event of default is announced on X-News within one business day.</li>
+    </ol>
+    <p><b>Terms to know.</b></p>
+    <ul>
+      <li><b>Issuer:</b> the body that borrows and repays, often the council's SPV or investment company.</li>
+      <li><b>Sponsor:</b> the adviser who submits the application to the BSE and confirms the issuer meets the listing requirements.</li>
+      <li><b>Arranger:</b> the bank or adviser who structures the bond and finds investors.</li>
+      <li><b>Trustee:</b> acts for the bondholders and enforces their rights.</li>
+      <li><b>Paying agent:</b> pays the interest and principal to the holders.</li>
+      <li><b>CSDB:</b> the Central Securities Depository of Botswana, which keeps the record of who owns the bonds.</li>
+      <li><b>Programme memorandum:</b> the main disclosure document for a programme of issues. <b>Pricing supplement:</b> the short document for each issue, with its amount, coupon and maturity.</li>
+      <li><b>Coupon:</b> the interest rate. <b>Tenor:</b> the length of the loan. <b>Maturity:</b> the date the principal is repaid.</li>
+      <li><b>Book-building:</b> collecting investor bids to set the price and allocation.</li>
+      <li><b>Covenant:</b> a promise in the bond terms, for example to keep a minimum DSCR. <b>Event of default:</b> a breach, such as a missed payment, that lets holders act.</li>
+      <li><b>X-News:</b> the BSE's announcement service. <b>Official List:</b> the BSE's list of listed securities.</li>
+    </ul>
+
+    <h3 id="n-rating">4. Credit ratings and creditworthiness</h3>
+    <p>A credit rating is an independent opinion on whether the issuer will pay interest and principal in full and on time. It is expressed as a grade from AAA, the strongest, down to D, which means default. Grades of BBB- and above are called investment grade. A national scale compares issuers within Botswana; a global scale compares them with issuers worldwide.</p>
+    <p><b>How a rating is done.</b> The issuer appoints a rating agency; the agency asks for audited accounts, budgets, debt and collection records and governance documents; it meets management and may visit; a rating committee decides; the rating is published; and it is reviewed at least once a year, with an outlook of positive, stable or negative.</p>
+    <p><b>What analysts look at for a council.</b> The legal and fiscal framework (powers, grants and oversight); the local economy and revenue base; financial performance, especially the operating surplus; flexibility to raise own revenue; debt and other obligations; liquidity; and management and governance, including timely audits and budget discipline.</p>
+    <p><b>Indicators every council can calculate now.</b></p>
+    <ul>
+      <li><b>Own-revenue ratio:</b> own revenue divided by total revenue.</li>
+      <li><b>Collection rate:</b> cash collected divided by the amount billed in the same period (not divided by the whole debtor book).</li>
+      <li><b>Operating surplus:</b> recurrent revenue less recurrent expenditure.</li>
+      <li><b>Debt service cover:</b> cash available for debt service divided by the year's interest and principal.</li>
+      <li><b>Debt to revenue:</b> total debt divided by annual revenue.</li>
+      <li><b>Liquidity:</b> cash held divided by average daily operating spending, in days.</li>
+    </ul>
+    <p class="small muted">On the BSE, a rating is not compulsory for a debt listing, but if one is obtained it must be disclosed, and any change must be announced on X-News within 24 hours. Pension funds and other large investors expect one.</p>
+  </section>
+
+  <section id="view-results" class="view" hidden>
+    <p><a href="#home" class="muted">← Back</a></p>
+    <div class="bar"><p class="k">Facilitator</p><h2>Records</h2></div>
+    <div id="gate">
+      <label for="pass">Facilitator passcode</label>
+      <input type="text" id="pass" autocomplete="off">
+      <div class="row" style="margin-top:10px"><button class="btn" type="button" id="unlock">Unlock</button></div>
+      <p class="small" id="gate-msg" style="color:var(--warn)"></p>
+    </div>
+    <div id="results-tool" hidden>
+      <p class="muted">Paste record lines from the emails or WhatsApp (extra text is ignored). Each line starts with MOG. The page builds the attendance register for each day and the test results.</p>
+      <label for="paste">Record lines</label>
+      <textarea id="paste" rows="8"></textarea>
+      <div class="row" style="margin-top:10px"><button class="btn" type="button" id="parse">Build the tables</button><button class="btn secondary" type="button" id="copy-csv">Copy CSV</button></div>
+      <div id="summary" style="margin-top:14px"></div>
+      <div class="scroll" id="table"></div>
+    </div>
+  </section>
+  <footer><span>Raising Capital Through Municipal Bonds · Local Authority Hub Workshops · Mogoditshane Hub, 18 to 20 November 2026</span><span>Workshop material for participants, MLGTA and UNDP</span></footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var Q = [
+    ["According to the Fiscal Decentralisation Strategy (2022), approximately what share of local government financing in Botswana comes from central government transfers?", ["25%", "50%", "90%"]],
+    ["What is a bond coupon?", ["the amount borrowed", "the periodic interest paid to investors", "a listing fee"]],
+    ["Under section 67 of the Local Government Act (as amended 2021), who approves council borrowing?", ["the Minister of Finance alone", "the Minister of Local Government, on the advice of the Minister of Finance", "the Bank of Botswana"]],
+    ["Under section 67(2), what secures a council loan?", ["central government revenues", "the council's own revenues and assets", "donor guarantees"]],
+    ["What most affects a council's ability to borrow?", ["the number of proposed projects", "actual collections and available surplus", "population size"]],
+    ["Which approach is used to price a council bond?", ["guesswork", "the government benchmark rate plus a risk spread", "a rate set by the Mayor"]],
+    ["What do 100 basis points equal?", ["100 percentage points", "10 percentage points", "one percentage point"]],
+    ["What is the repayment source for a revenue bond?", ["the project's own income", "the national budget", "new borrowing"]],
+    ["Which body regulates pension funds and insurers that buy bonds?", ["NBFIRA", "CIPA", "BURS"]],
+    ["What does book-building involve?", ["keeping accounts", "collecting investor bids to assess demand and determine pricing", "printing a prospectus"]],
+    ["What does the E1 evidence rating mean?", ["estimated figures", "verified primary documents", "a credit rating grade"]],
+    ["What happens to a council's duties to investors after listing?", ["they end at listing", "payment, reporting, disclosure and contractual duties continue", "they transfer to MLGTA"]]
+  ];
+  var K = "FEEEEEFDDEEE";
+  function keyAt(i){ return String.fromCharCode(K.charCodeAt(i) - 3); }
+  var WA = "26775150614";
+  var MAIL = "leslie@stonehendge.co.bw";
+  var CC = "letsleslie@gmail.com";
+  var RELAY = "https://formsubmit.co/ajax/" + MAIL;
+  var PASS = "MOGO2026";
+  var LETTERS = ["A","B","C"];
+  var DAYS = {
+    day1: { n: 1, short: "Day 1", long: "Day 1, Wednesday 18 November 2026", iso: "2026-11-18" },
+    day2: { n: 2, short: "Day 2", long: "Day 2, Thursday 19 November 2026", iso: "2026-11-19" },
+    day3: { n: 3, short: "Day 3", long: "Day 3, Friday 20 November 2026", iso: "2026-11-20" }
+  };
+  var $ = function(id){ return document.getElementById(id); };
+  var views = { home: $("view-home"), register: $("view-register"), test: $("view-test"), notes: $("view-notes"), results: $("view-results") };
+  var mode = "pre", regDay = "day1";
+  var toastT;
+  function toast(msg){ var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove("show"); }, 2200); }
+  function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function lsSet(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
+  function store(){ try { return JSON.parse(lsGet("mog.results") || "{}"); } catch(e){ return {}; } }
+  function save(obj){ lsSet("mog.results", JSON.stringify(obj)); }
+  function profile(){ try { return JSON.parse(lsGet("mog.profile") || "null"); } catch(e){ return null; } }
+  function pad(n){ return (n < 10 ? "0" : "") + n; }
+  function isoToday(){ var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function todayKey(){ var t = isoToday(); if (t === DAYS.day3.iso) return "day3"; if (t === DAYS.day2.iso) return "day2"; return "day1"; }
+  function stamp(){ var d = new Date(); var m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return pad(d.getDate()) + " " + m[d.getMonth()] + " " + d.getFullYear() + " " + pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+  function suggestCode(){ var a = "ABCDEFGHJKLMNPQRSTUVWXYZ", d = "23456789"; return a[Math.floor(Math.random()*a.length)] + a[Math.floor(Math.random()*a.length)] + d[Math.floor(Math.random()*d.length)] + d[Math.floor(Math.random()*d.length)]; }
+  function cleanCode(v){ return (v || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, ""); }
+  function clean(v){ return String(v || "").replace(/[|\n\r]+/g, " / ").trim(); }
+  function send(fields, timeoutMs){
+    var ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function(){ ctrl.abort(); }, timeoutMs || 15000) : null;
+    var body = Object.assign({ _template: "table", _captcha: "false", _cc: CC }, fields);
+    return fetch(RELAY, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(body), signal: ctrl ? ctrl.signal : undefined })
+      .then(function(r){ return r.json().catch(function(){ return { success: r.ok ? "true" : "false", message: "HTTP " + r.status }; }); })
+      .then(function(j){ if (timer) clearTimeout(timer); return j; });
+  }
+  function show(name){ Object.keys(views).forEach(function(k){ views[k].hidden = (k !== name); }); window.scrollTo(0, 0); }
+  function route(){
+    var h = (location.hash || "#home").replace("#", "");
+    if (h === "pre" || h === "post"){ mode = h; setupTest(); show("test"); }
+    else if (h === "day1" || h === "day2" || h === "day3"){ setupRegister(h); show("register"); }
+    else if (h === "register"){ setupRegister(todayKey()); show("register"); }
+    else if (h === "notes"){ show("notes"); }
+    else if (h === "results"){ show("results"); }
+    else { show("home"); }
+  }
+  window.addEventListener("hashchange", route);
+  document.querySelectorAll("[data-jump]").forEach(function(a){ a.addEventListener("click", function(ev){ ev.preventDefault(); var t = $(a.getAttribute("data-jump")); if (t) t.scrollIntoView({ behavior: "smooth", block: "start" }); }); });
+  (function markToday(){ var k = todayKey(); document.querySelectorAll("#day-links a").forEach(function(a){ if (a.getAttribute("data-day") === k) a.classList.add("today"); a.addEventListener("click", function(ev){ ev.stopPropagation(); }); }); })();
+
+  // ---- attendance (one sign-in per day)
+  $("r-council").addEventListener("change", function(){ $("r-other-wrap").hidden = ($("r-council").value !== "Other institution"); });
+  function setupRegister(dayKey){
+    regDay = dayKey; var D = DAYS[dayKey];
+    $("reg-kicker").textContent = "Attendance register · " + D.short;
+    $("reg-title").textContent = "Sign in for " + D.long;
+    $("reg-submit").textContent = "Sign in for " + D.short;
+    $("reg-done").hidden = true; $("reg-form").hidden = false; $("reg-msg").textContent = "";
+    var p = profile();
+    if (p){
+      if (!$("r-name").value) $("r-name").value = p.name || "";
+      if (!$("r-council").value) $("r-council").value = p.council || "";
+      if (!$("r-other").value) $("r-other").value = p.other || "";
+      if (!$("r-role").value) $("r-role").value = p.role || "";
+      if (!$("r-title").value) $("r-title").value = p.title || "";
+      if (!$("r-email").value) $("r-email").value = p.email || "";
+      if (!$("r-phone").value) $("r-phone").value = p.phone || "";
+      if (!$("r-code").value) $("r-code").value = p.code || "";
+    }
+    if (!$("r-code").value) $("r-code").value = suggestCode();
+    $("r-other-wrap").hidden = ($("r-council").value !== "Other institution");
+  }
+  $("reg-form").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var D = DAYS[regDay];
+    var name = clean($("r-name").value), council = $("r-council").value, other = clean($("r-other").value), role = $("r-role").value, title = clean($("r-title").value);
+    var email = clean($("r-email").value), phone = clean($("r-phone").value), code = cleanCode($("r-code").value);
+    var msg = [];
+    if (name.length < 3) msg.push("Enter your full name.");
+    if (!council) msg.push("Choose your council or institution.");
+    if (council === "Other institution" && other.length < 2) msg.push("Write the name of your institution.");
+    if (!role) msg.push("Choose your position.");
+    if (!email && !phone) msg.push("Give an email or a mobile number.");
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) msg.push("That email address does not look right.");
+    if (code.length < 3 || code.length > 6) msg.push("The code needs three to six letters or numbers.");
+    if (msg.length){ $("reg-msg").textContent = msg.join(" "); return; }
+    var inst = council === "Other institution" ? other : council;
+    lsSet("mog.profile", JSON.stringify({ name: name, council: council, other: other, role: role, title: title, email: email, phone: phone, code: code }));
+    lsSet("mog.code", code); lsSet("mog.council", council); lsSet("mog.name", name);
+    var btn = $("reg-submit"); btn.disabled = true; btn.textContent = "Sending…";
+    var when = stamp();
+    var line = ["MOG", "ATT", "D" + D.n, code, name, inst, role, title, email, phone, when].join(" | ");
+    var fields = { _subject: "Mogoditshane workshop · Attendance " + D.short + " · " + name + " · " + inst, "Record": "Attendance " + D.short, "Day": D.long, "Full name": name, "Council or institution": inst, "Position": role, "Job title": title, "Email": email, "Mobile": phone, "Participant code": code, "Submitted": when, "Record line": line };
+    if (email) fields._replyto = email;
+    var done = function(ok, text){
+      btn.disabled = false; btn.textContent = "Sign in for " + D.short;
+      $("reg-form").hidden = true; var d = $("reg-done"); d.hidden = false;
+      $("reg-done-kicker").textContent = "Signed in · " + D.short;
+      $("reg-done-text").textContent = "Thank you, " + name + ". You are signed in for " + D.long + ", with " + inst + ".";
+      $("reg-done-code").textContent = code;
+      var st = $("reg-status"); st.className = "status " + (ok ? "ok" : "warn"); st.textContent = text;
+      $("reg-backup").hidden = ok; $("reg-line").textContent = line; $("reg-wa").href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(line);
+      var nx = $("reg-next"); if (regDay === "day1"){ nx.href = "#pre"; nx.textContent = "Go to the Day 1 test"; nx.hidden = false; } else if (regDay === "day3"){ nx.href = "#notes"; nx.textContent = "Open the notes"; nx.hidden = false; } else { nx.href = "#notes"; nx.textContent = "Open the notes"; nx.hidden = false; }
+      var regs = []; try { regs = JSON.parse(lsGet("mog.attendance") || "[]"); } catch(e){}
+      regs.push({ day: D.short, name: name, council: inst, code: code, when: when, sent: ok }); lsSet("mog.attendance", JSON.stringify(regs));
+      d.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    send(fields).then(function(j){
+      if (j && String(j.success) === "true") done(true, "Sent to the facilitator (" + when + ").");
+      else done(false, "Your sign-in is saved on this phone, but the automatic send was not confirmed" + (j && j.message ? " (" + j.message + ")" : "") + ". Please use the WhatsApp button below, or show this screen at the registration desk.");
+    }).catch(function(){ done(false, "No connection just now. Your sign-in is saved on this phone; please use the WhatsApp button below or show this screen at the registration desk."); });
+  });
+
+  // ---- tests
+  function buildQuestions(){
+    var box = $("questions"); box.innerHTML = "";
+    Q.forEach(function(q, i){
+      var d = document.createElement("div"); d.className = "q"; d.id = "q" + (i + 1);
+      var h = document.createElement("h4"); h.textContent = (i + 1) + ".  " + q[0]; d.appendChild(h);
+      q[1].forEach(function(opt, j){
+        var l = document.createElement("label"); l.className = "opt";
+        var r = document.createElement("input"); r.type = "radio"; r.name = "q" + (i + 1); r.value = LETTERS[j]; r.id = "q" + (i + 1) + LETTERS[j];
+        var s = document.createElement("span"); s.textContent = LETTERS[j] + ".  " + opt;
+        l.appendChild(r); l.appendChild(s); d.appendChild(l);
+      });
+      box.appendChild(d);
+    });
+  }
+  function setupTest(){
+    var pre = (mode === "pre");
+    $("test-pill").textContent = pre ? "Day 1 pre-assessment · Teko ya pele" : "Day 3 post-assessment · Teko ya bofelo";
+    $("test-title").textContent = pre ? "Knowledge assessment: before we start" : "Knowledge assessment: what you take home";
+    $("result").hidden = true; $("test-form").hidden = false; $("form-msg").textContent = "";
+    var last = lsGet("mog.code"); if (last && !$("code").value) $("code").value = last;
+    var lc = lsGet("mog.council"); if (lc && !$("council").value){ $("council").value = lc; if (!$("council").value) $("council").value = "MLGTA or other institution"; }
+    if (!$("questions").children.length) buildQuestions();
+    $("test-form").querySelectorAll("input[type=radio]").forEach(function(r){ r.checked = false; });
+    document.querySelectorAll(".q.missing").forEach(function(el){ el.classList.remove("missing"); });
+  }
+  $("test-form").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var code = cleanCode($("code").value);
+    var council = $("council").value; var role = $("role").value;
+    var msg = [];
+    if (code.length < 3) msg.push("Enter a participant code of three to six letters or numbers.");
+    if (!council) msg.push("Choose your council.");
+    var answers = [], missing = 0;
+    Q.forEach(function(q, i){
+      var sel = document.querySelector("input[name=q" + (i + 1) + "]:checked");
+      var el = $("q" + (i + 1));
+      if (!sel){ missing++; el.classList.add("missing"); answers.push("-"); } else { el.classList.remove("missing"); answers.push(sel.value); }
+    });
+    if (missing) msg.push(missing === 1 ? "One question is unanswered (marked in red)." : missing + " questions are unanswered (marked in red).");
+    if (msg.length){ $("form-msg").textContent = msg.join(" "); var first = document.querySelector(".q.missing"); if (first && code.length >= 3 && council) first.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+    var score = 0; answers.forEach(function(a, i){ if (a === keyAt(i)) score++; });
+    var when = stamp();
+    var label = mode === "pre" ? "Day 1 pre-assessment" : "Day 3 post-assessment";
+    var name = clean(lsGet("mog.name") || "");
+    var line = ["MOG", mode.toUpperCase(), mode === "pre" ? "D1" : "D3", code, name, council, role, "SCORE " + score + "/12", answers.join(" "), when].join(" | ");
+    var st = store(); st[code] = st[code] || {}; st[code][mode] = { score: score, answers: answers, council: council, when: when }; save(st);
+    lsSet("mog.code", code); lsSet("mog.council", council);
+    $("test-form").hidden = true;
+    var res = $("result"); res.hidden = false;
+    $("result-score").textContent = score + " / 12";
+    $("result-eyebrow").textContent = label + " · code " + code;
+    $("result-text").textContent = mode === "pre" ? "Thank you. This is the starting point; the same twelve questions come back on Day 3." : "Thank you. Well done for completing the three days.";
+    var cmp = "";
+    if (mode === "post" && st[code].pre){ var d = score - st[code].pre.score; cmp = "On Day 1 this phone recorded " + st[code].pre.score + " / 12 for code " + code + ". Change: " + (d >= 0 ? "+" : "") + d + " marks."; }
+    if (mode === "pre" && st[code].post){ cmp = "A Day 3 result for this code is already on this phone."; }
+    $("result-compare").textContent = cmp;
+    $("result-line").textContent = line;
+    $("wa-link").href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(line);
+    var sst = $("send-status"); sst.className = "status"; sst.textContent = "Sending to the facilitator…";
+    var fields = { _subject: "Mogoditshane workshop · " + label + " · " + code + " · " + council + " · " + score + "/12", "Record": label, "Participant code": code, "Name (if signed in on this phone)": name, "Council": council, "Role": role, "Score": score + " / 12", "Answers Q1 to Q12": answers.join(" "), "Correct": answers.map(function(a, i){ return a === keyAt(i) ? "1" : "0"; }).join(" "), "Submitted": when, "Record line": line };
+    if (mode === "post" && st[code].pre) fields["Day 1 score on this phone"] = st[code].pre.score + " / 12";
+    send(fields).then(function(j){
+      if (j && String(j.success) === "true"){ sst.className = "status ok"; sst.textContent = "Sent to the facilitator (" + when + ")."; }
+      else { sst.className = "status warn"; sst.textContent = "The automatic send was not confirmed" + (j && j.message ? " (" + j.message + ")" : "") + ". Please use the WhatsApp button below."; }
+    }).catch(function(){ sst.className = "status warn"; sst.textContent = "No connection just now. Please use the WhatsApp button below, or try again when you are online."; });
+    res.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  $("copy-result").addEventListener("click", function(){
+    var text = $("result-line").textContent;
+    function fallback(){ var r = document.createRange(); r.selectNodeContents($("result-line")); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); toast("Result line selected. Copy it with the menu."); }
+    if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(function(){ toast("Result line copied"); }, fallback); } else { fallback(); }
+  });
+
+  // ---- facilitator records
+  $("unlock").addEventListener("click", function(){ if (($("pass").value || "").trim().toUpperCase() === PASS){ $("gate").hidden = true; $("results-tool").hidden = false; } else { $("gate-msg").textContent = "That passcode is not right."; } });
+  var recs = [];
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function parseLines(text){
+    var out = [];
+    text.split(/\n/).forEach(function(raw){
+      var i = raw.indexOf("MOG |"); if (i < 0) return;
+      var p = raw.slice(i).split("|").map(function(s){ return s.trim(); });
+      if (p[1] === "ATT") out.push({ kind: "ATT", day: p[2], code: p[3], name: p[4], council: p[5], role: p[6], title: p[7], email: p[8], phone: p[9], when: p[10] });
+      else if (p[1] === "PRE" || p[1] === "POST"){ var m = /SCORE\s+(\d+)/.exec(p[7] || ""); out.push({ kind: p[1], day: p[2], code: p[3], name: p[4], council: p[5], role: p[6], score: m ? parseInt(m[1], 10) : null, answers: p[8], when: p[9] }); }
+    });
+    var seen = {}; return out.filter(function(r){ var k = r.kind + r.day + r.code + (r.kind === "ATT" ? r.name : ""); if (seen[k]) return false; seen[k] = 1; return true; });
+  }
+  $("parse").addEventListener("click", function(){
+    recs = parseLines($("paste").value);
+    if (!recs.length){ $("summary").innerHTML = "<p class='muted'>No record lines found. Each line must start with MOG |.</p>"; $("table").innerHTML = ""; return; }
+    var html = "";
+    ["D1", "D2", "D3"].forEach(function(d){
+      var a = recs.filter(function(r){ return r.kind === "ATT" && r.day === d; });
+      html += "<h3>Attendance " + d.replace("D", "Day ") + " (" + a.length + ")</h3>";
+      if (a.length){ html += "<div class='scroll'><table><thead><tr><th>#</th><th>Name</th><th>Council</th><th>Position</th><th>Mobile</th><th>Email</th><th>Code</th><th>Time</th></tr></thead><tbody>"; a.forEach(function(r, i){ html += "<tr><td>" + (i + 1) + "</td><td>" + esc(r.name) + "</td><td>" + esc(r.council) + "</td><td>" + esc(r.role) + "</td><td>" + esc(r.phone) + "</td><td>" + esc(r.email) + "</td><td>" + esc(r.code) + "</td><td>" + esc(r.when) + "</td></tr>"; }); html += "</tbody></table></div>"; }
+    });
+    var t = recs.filter(function(r){ return r.kind !== "ATT"; });
+    html += "<h3>Test results (" + t.length + ")</h3>";
+    if (t.length){ html += "<div class='scroll'><table><thead><tr><th>Test</th><th>Code</th><th>Council</th><th>Score</th><th>Time</th></tr></thead><tbody>"; t.forEach(function(r){ html += "<tr><td>" + r.kind + "</td><td>" + esc(r.code) + "</td><td>" + esc(r.council) + "</td><td>" + r.score + "/12</td><td>" + esc(r.when) + "</td></tr>"; }); html += "</tbody></table></div>"; }
+    $("summary").innerHTML = html;
+  });
+  function csv(){ var lines = ["kind,day,code,name,council,position,email,mobile,score,time"]; recs.forEach(function(r){ lines.push([r.kind, r.day, r.code, r.name, r.council, r.role || "", r.email || "", r.phone || "", r.score === undefined || r.score === null ? "" : r.score, r.when].map(function(v){ return '"' + String(v || "").replace(/"/g, '""') + '"'; }).join(",")); }); return lines.join("\n"); }
+  $("copy-csv").addEventListener("click", function(){ if (!recs.length){ toast("Build the tables first"); return; } var text = csv(); if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(function(){ toast("CSV copied"); }, function(){ toast("Copy refused; select the table instead"); }); } else { toast("Copy not available here"); } });
+
+  buildQuestions();
+  route();
+})();
+</script>
+</body>
+</html>
