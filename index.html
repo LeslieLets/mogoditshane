@@ -18,7 +18,7 @@
 body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.45;margin:0}
 img{max-width:100%}
 [hidden]{display:none!important}
-.band{background:linear-gradient(90deg,var(--band) 0,var(--band) 68%,var(--band2) 68%);color:var(--band-fg)}
+.band{background:linear-gradient(90deg,var(--band) 0,var(--band) calc(50% + 430px),var(--band2) calc(50% + 430px));color:var(--band-fg)}
 .band .in{max-width:860px;margin:0 auto;padding-block:26px 24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8C8B86;font-weight:700}
 h1{font-weight:700;font-size:clamp(28px,6.5vw,40px);line-height:1.1;margin:8px 0 6px;text-wrap:balance;color:#FFFFFF}
@@ -43,7 +43,9 @@ li{margin:0 0 6px}
 .door strong{display:block;font-size:18px;color:var(--ink);margin-bottom:4px}
 .door span{display:block;font-size:14px;color:var(--muted)}
 .door em{display:inline-block;margin-top:10px;font-style:normal;font-weight:700;color:var(--ink);border-bottom:2px solid var(--ink);font-size:14px}
-.days{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.days,.door .days{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.door strong a{color:inherit;text-decoration:none}
+.door strong a:hover,.door strong a:focus-visible{text-decoration:underline}
 .days a{font-size:14px;font-weight:700;color:var(--ink);border:1.5px solid var(--ink);padding:7px 10px;text-decoration:none}
 .days a.today{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .note{background:var(--card);border:1px solid var(--line);padding:12px 14px;margin:14px 0}
@@ -98,8 +100,8 @@ footer{border-top:1px solid var(--line);margin-top:28px;padding:12px 0 0;font-si
   <section id="view-home" class="view">
     <div class="bar"><p class="k">Opening · Maikaelelo</p><h2>Dumelang, bagaetsho. Everything for the three days is here.</h2></div>
     <div class="doors">
-      <a class="door" href="#register"><span class="n">1</span><div><strong>Sign in for today</strong><span>Every morning, for the attendance register and your certificate. After Day 1 your details are remembered on this phone, so it takes one tap.</span>
-        <span class="days" id="day-links"><a href="#day1" data-day="day1">Day 1 · Wed 18 Nov</a><a href="#day2" data-day="day2">Day 2 · Thu 19 Nov</a><a href="#day3" data-day="day3">Day 3 · Fri 20 Nov</a></span></div></a>
+      <div class="door"><span class="n">1</span><div><strong><a href="#register">Sign in for today</a></strong><span>Every morning, for the attendance register and your certificate. After Day 1 your details are remembered on this phone, so it takes one tap.</span>
+        <span class="days" id="day-links"><a href="#day1" data-day="day1">Day 1 · Wed 18 Nov</a><a href="#day2" data-day="day2">Day 2 · Thu 19 Nov</a><a href="#day3" data-day="day3">Day 3 · Fri 20 Nov</a></span></div></div>
       <a class="door" href="#pre"><span class="n">2</span><div><strong>Day 1 pre-assessment</strong><span>Before Module 1. Twelve questions, ten minutes, with your participant code. Your answers go to the facilitator automatically.</span><em>Start Day 1 test</em></div></a>
       <a class="door" href="#post"><span class="n">3</span><div><strong>Day 3 post-assessment</strong><span>At the close on Day 3, with the same code, so your progress can be measured.</span><em>Start Day 3 test</em></div></a>
       <a class="door" href="#notes"><span class="n">4</span><div><strong>Notes for participants</strong><span>Choosing bankable projects, the types of bonds, the steps and terms for listing a bond, and how credit ratings work.</span><em>Read the notes</em></div></a>
