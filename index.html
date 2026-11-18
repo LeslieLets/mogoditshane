@@ -120,7 +120,7 @@ footer{border-top:1px solid var(--line);margin-top:28px;padding:12px 0 0;font-si
     <form id="reg-form" novalidate>
       <div class="grid2">
         <div><label for="r-name">Full name</label><input type="text" id="r-name" autocomplete="name" required></div>
-        <div><label for="r-council">Council or institution</label><select id="r-council" required><option value="">Choose…</option><option>Mogoditshane</option><option>Molepolole (Kweneng District Council)</option><option>Letlhakeng</option><option>Gaborone City Council or GCIC</option><option>MLGTA</option><option>Other institution</option></select></div>
+        <div><label for="r-council">Council or institution</label><select id="r-council" required><option value="">Choose…</option><option>Mogoditshane</option><option>Molepolole</option><option>Letlhakeng</option><option>Gaborone City Council or GCIC</option><option>MLGTA</option><option>Other institution</option></select></div>
         <div id="r-other-wrap" hidden><label for="r-other">Name of your institution</label><input type="text" id="r-other" autocomplete="organization"></div>
         <div><label for="r-role">Position</label><select id="r-role" required><option value="">Choose…</option><option>Councillor</option><option>Mayor or Council Chairperson</option><option>Town or Council Secretary</option><option>Deputy Secretary or Director</option><option>Finance officer</option><option>Other council officer</option><option>Ministry or agency officer</option><option>Other</option></select></div>
         <div><label for="r-title">Job title (optional)</label><input type="text" id="r-title" autocomplete="organization-title"></div>
@@ -154,7 +154,7 @@ footer{border-top:1px solid var(--line);margin-top:28px;padding:12px 0 0;font-si
       <label for="code">Your participant code (four letters or numbers, not your name)</label>
       <input type="text" id="code" class="code" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="for example KG27" required>
       <label for="council">Your council</label>
-      <select id="council" required><option value="">Choose…</option><option>Mogoditshane</option><option>Molepolole (Kweneng District Council)</option><option>Letlhakeng</option><option>Gaborone City Council or GCIC</option><option>MLGTA or other institution</option></select>
+      <select id="council" required><option value="">Choose…</option><option>Mogoditshane</option><option>Molepolole</option><option>Letlhakeng</option><option>Gaborone City Council or GCIC</option><option>MLGTA or other institution</option></select>
       <label for="role">Your role (optional)</label>
       <select id="role"><option value="">Choose…</option><option>Councillor</option><option>Council officer</option><option>Ministry or agency officer</option><option>Other</option></select>
       <div id="questions"></div>
@@ -328,7 +328,8 @@ footer{border-top:1px solid var(--line);margin-top:28px;padding:12px 0 0;font-si
   function lsSet(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
   function store(){ try { return JSON.parse(lsGet("mog.results") || "{}"); } catch(e){ return {}; } }
   function save(obj){ lsSet("mog.results", JSON.stringify(obj)); }
-  function profile(){ try { return JSON.parse(lsGet("mog.profile") || "null"); } catch(e){ return null; } }
+  function cleanCouncil(c){ return String(c || "").replace(/\s*\(Kweneng District Council\)/i, ""); }
+  function profile(){ try { var p = JSON.parse(lsGet("mog.profile") || "null"); if (p) p.council = cleanCouncil(p.council); return p; } catch(e){ return null; } }
   function pad(n){ return (n < 10 ? "0" : "") + n; }
   function isoToday(){ var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
   function todayKey(){ var t = isoToday(); if (t === DAYS.day3.iso) return "day3"; if (t === DAYS.day2.iso) return "day2"; return "day1"; }
@@ -442,7 +443,7 @@ footer{border-top:1px solid var(--line);margin-top:28px;padding:12px 0 0;font-si
     $("test-title").textContent = pre ? "Knowledge assessment: before we start" : "Knowledge assessment: what you take home";
     $("result").hidden = true; $("test-form").hidden = false; $("form-msg").textContent = "";
     var last = lsGet("mog.code"); if (last && !$("code").value) $("code").value = last;
-    var lc = lsGet("mog.council"); if (lc && !$("council").value){ $("council").value = lc; if (!$("council").value) $("council").value = "MLGTA or other institution"; }
+    var lc = cleanCouncil(lsGet("mog.council")); if (lc && !$("council").value){ $("council").value = lc; if (!$("council").value) $("council").value = "MLGTA or other institution"; }
     if (!$("questions").children.length) buildQuestions();
     $("test-form").querySelectorAll("input[type=radio]").forEach(function(r){ r.checked = false; });
     document.querySelectorAll(".q.missing").forEach(function(el){ el.classList.remove("missing"); });
@@ -503,7 +504,7 @@ footer{border-top:1px solid var(--line);margin-top:28px;padding:12px 0 0;font-si
     var out = [];
     text.split(/\n/).forEach(function(raw){
       var i = raw.indexOf("MOG |"); if (i < 0) return;
-      var p = raw.slice(i).split("|").map(function(s){ return s.trim(); });
+      var p = raw.slice(i).replace(/\s*\(Kweneng District Council\)/gi, "").split("|").map(function(s){ return s.trim(); });
       if (p[1] === "ATT") out.push({ kind: "ATT", day: p[2], code: p[3], name: p[4], council: p[5], role: p[6], title: p[7], email: p[8], phone: p[9], when: p[10] });
       else if (p[1] === "PRE" || p[1] === "POST"){ var m = /SCORE\s+(\d+)/.exec(p[7] || ""); out.push({ kind: p[1], day: p[2], code: p[3], name: p[4], council: p[5], role: p[6], score: m ? parseInt(m[1], 10) : null, answers: p[8], when: p[9] }); }
     });
